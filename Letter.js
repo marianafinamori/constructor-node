@@ -7,7 +7,7 @@ var Letter = function(letter) {
 this.guessOrNot = function() {
     if (this.letter === " ") {
         this.guessed = true;
-        return " "
+        return "   ";
     } else if (this.guessed === false) {
         return "_ ";
     } else if (this.guessed === true) {

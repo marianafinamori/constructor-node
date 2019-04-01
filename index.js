@@ -6,7 +6,7 @@ var words = ["pablo picasso", "salvador dali", "joan miro", "egon schiele", "lou
 var lettersToGuess;
 var triesLeft;
 var wrongGuesses;
-var answerArray = [];
+var statusArray = [];
 
 
 init();
@@ -31,7 +31,7 @@ inquirer
 }
 
 function gameStatus() {
-  if (answerArray.indexOf(false) > -1 && triesLeft > 0) {
+  if (statusArray.indexOf(false) > -1 && triesLeft > 0) {
     play();
   } else if (triesLeft === 0) {
     // console.log(" ")
@@ -40,7 +40,7 @@ function gameStatus() {
     console.log("The answer was: " + word.city.join(" ").toUpperCase());
     console.log("**********************************************************")
     playAgain();
-  } else if (answerArray.indexOf(false) < 0) {
+  } else if (statusArray.indexOf(false) < 0) {
     console.log("**********************************************************")
     console.log("YOU WIN!")
     console.log("Good job guessing  " + word.city.join(" ").toUpperCase());
@@ -63,7 +63,9 @@ function start() {
     wrongGuesses = [];
     word = new Word(randomWord);
     // console.log(word);
+    console.log(" ")
     word.buildWord();
+    console.log(" ");
     console.log("TRIES LEFT: " + triesLeft);
     console.log("WRONG LETTERS SO FAR: " + wrongGuesses);
     play();
@@ -88,24 +90,28 @@ function play() {
             lettersToGuess--;
             // console.log(lettersToGuess);
             word.checkWord(input);
+            console.log(" ")
             word.buildWord();
+            console.log(" ")
             console.log("CORRECT")
             console.log("TRIES LEFT: " + triesLeft);
             console.log("WRONG LETTERS SO FAR: " + wrongGuesses);
-            answerArray = []
+            statusArray = []
             for (var i = 0; i < word.wordArray.length; i++) {
-              answerArray.push(word.wordArray[i].guessed)
+              statusArray.push(word.wordArray[i].guessed)
             }
-            // console.log("Updated array " + answerArray)
+            // console.log("Updated array " + statusArray)
             gameStatus();
           } else {
-            answerArray = []
+            statusArray = []
             for (var i = 0; i < word.wordArray.length; i++) {
-              answerArray.push(word.wordArray[i].guessed)
+              statusArray.push(word.wordArray[i].guessed)
             }
             triesLeft--;
             wrongGuesses.push(input)
+            console.log(" ")
             word.buildWord();
+            console.log(" ")
             console.log("WRONG GUESS")
             console.log("TRIES LEFT: " + triesLeft);
             console.log("WRONG LETTERS SO FAR: " + wrongGuesses);
