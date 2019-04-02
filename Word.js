@@ -11,8 +11,8 @@ var Word = function(randomWord) {
         this.wordArray.push(letter);
         this.city.push(letter.letter); 
     }
-
-this.buildWord = function() {
+}
+Word.prototype.buildWord = function() {
     this.word = "";
         for (var i = 0; i < this.city.length; i++) { 
         this.word+=this.wordArray[i].guessOrNot();
@@ -24,7 +24,7 @@ this.buildWord = function() {
 //  d. a function that takes a character as an argument and calls the guess function on each letter object 
 //(the 2nd function defined in Letter.js)
 
-this.checkWord = function(input) {
+Word.prototype.checkWord = function(input) {
     for (var i = 0; i < this.wordArray.length; i++) {
         //this.city[i] is just a character
         //this.wordArray[i] is the whole Letter object
@@ -34,7 +34,7 @@ this.checkWord = function(input) {
 
     }
 }
-}
+
 
 module.exports = Word;
 

@@ -2,9 +2,9 @@ var Letter = function(letter) {
     
     this.letter = letter,
     this.guessed = false
+};  
 
-
-this.guessOrNot = function() {
+Letter.prototype.guessOrNot = function() {
     if (this.letter === " ") {
         this.guessed = true;
         return "   ";
@@ -15,7 +15,7 @@ this.guessOrNot = function() {
     } 
 }
 
-this.compare = function(input) {
+Letter.prototype.compare = function(input) {
     if (input === this.letter) {
         this.guessed = true;
         if(this.letter === "_ ") {
@@ -23,6 +23,6 @@ this.compare = function(input) {
         }
     } 
 }
-};  
+
 
 module.exports = Letter;
