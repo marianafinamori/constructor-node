@@ -34,7 +34,6 @@ function gameStatus() {
   if (statusArray.indexOf(false) > -1 && triesLeft > 0) {
     play();
   } else if (triesLeft === 0) {
-    // console.log(" ")
     console.log("**********************************************************")
     console.log("YOU LOST")
     console.log("The answer was: " + word.city.join(" ").toUpperCase());

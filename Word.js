@@ -28,7 +28,6 @@ Word.prototype.checkWord = function(input) {
     for (var i = 0; i < this.wordArray.length; i++) {
         //this.city[i] is just a character
         //this.wordArray[i] is the whole Letter object
-        //so you might have to change this up
         // this.word[i].compare(input);
         this.wordArray[i].compare(input);
 
