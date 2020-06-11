@@ -8,6 +8,7 @@ TECHNOLOGIES
 - npm inquirer
 
 CODE EXPLANATION
+    
     The game is to be playing in the command-line.
     
     1. File Letter.js. 
