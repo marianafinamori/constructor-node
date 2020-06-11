@@ -9,7 +9,7 @@ TECHNOLOGIES
 
 CODE EXPLANATION
     
-    The game is to be playing in the command-line.
+    The game is to be played in the command-line.
     
     1. File Letter.js. 
     - Contains character constructor for the word-to-be-guessed. 
