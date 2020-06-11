@@ -1,19 +1,18 @@
 
-var inquirer = require("inquirer");
-var Word = require("./Word.js");
+const inquirer = require("inquirer");
+const Word = require("./Word.js");
 
-var words = ["pablo picasso", "salvador dali", "joan miro", "egon schiele", "louise bourgeois", "andy warhol", "jean michel basquiat", "jackson pollock", "camille claudel", "francis bacon", "willem de kooning", "mark rothko", "edward hopper", "marlene dumas", "frida kahlo"];
-var lettersToGuess;
-var triesLeft;
-var wrongGuesses;
-var statusArray = [];
+const artists = ["PABLO PICASSO", "SALVADOR DALI", "JOAN MIRO", "EGON SCHIELE", "LOUISE BOURGEOIS", "ANDY WARHOL", "JEAN MICHEL BASQUIAT", "JACKSON POLLOCK", "CAMILLE CLAUDEL", "FRANCIS BACON", "WILLEM DE KOONING", "MARK ROTHKO", "EDWARD HOPPER", "MARLENE DUMAS", "FRIDA KAHLO"];
+let lettersToGuess;
+let triesLeft;
+let wrongGuesses;
+let statusArray = [];
 
 
 init();
 function init() {
 inquirer
   .prompt([
-    // Here we ask the user to confirm.
     {
       type: "confirm",
       message: "Do you want to guess the name of an artist?",
@@ -25,7 +24,7 @@ inquirer
     if (inquirerResponse.confirm) {
       start();
     } else {
-      console.log("\nTHAT'S OKAY.\n");
+      console.log("\nBYE!\n");
     }
   });
 }
@@ -36,13 +35,13 @@ function gameStatus() {
   } else if (triesLeft === 0) {
     console.log("**********************************************************")
     console.log("YOU LOST")
-    console.log("The answer was: " + word.city.join(" ").toUpperCase());
+    console.log("The answer was: " + word.nameIntoArray.join(" ").toUpperCase());
     console.log("**********************************************************")
     playAgain();
   } else if (statusArray.indexOf(false) < 0) {
     console.log("**********************************************************")
     console.log("YOU WIN!")
-    console.log("Good job guessing  " + word.city.join(" ").toUpperCase());
+    console.log("Good job guessing  " + word.nameIntoArray.join(" ").toUpperCase());
     console.log("**********************************************************")
     playAgain();
   }
@@ -50,18 +49,16 @@ function gameStatus() {
 
 
 function start() {
-    var random = Math.floor(Math.random() * words.length);
-    var randomWord = words[random];
-    if (randomWord.indexOf(" ") > -1) { 
-    lettersToGuess = randomWord.length - 1;
+    let random = Math.floor(Math.random() * artists.length);
+    let artist = artists[random];
+    if (artist.indexOf(" ") > -1) { 
+    lettersToGuess = artist.length - 1;
   } else {
-    lettersToGuess = randomWord.length
+    lettersToGuess = artist.length
   }
-  // console.log("letters to guess" + lettersToGuess);
     triesLeft = 10;
     wrongGuesses = [];
-    word = new Word(randomWord);
-    // console.log(word);
+    word = new Word(artist);
     console.log(" ")
     word.buildWord();
     console.log(" ");
@@ -70,55 +67,59 @@ function start() {
     play();
 }
 
-
-
 function play() {
     inquirer
     .prompt([
         {
             type: "input",
             message: "Guess a letter",
-            name: "letter"
+            name: "guest"
         }
     ])
     .then(function(inquirerResponse) {
-        var input = inquirerResponse.letter;
+        var input = inquirerResponse.guest.toUpperCase();
+        // console.log("inquirerResponse: " + JSON.stringify(inquirerResponse))
         // console.log("console.log input " + input)
         
-          if (word.city.indexOf(input) > -1) {
+          if (word.nameIntoArray.indexOf(input) > -1) {
             lettersToGuess--;
-            // console.log(lettersToGuess);
             word.checkWord(input);
             console.log(" ")
             word.buildWord();
             console.log(" ")
             console.log("CORRECT")
             console.log("TRIES LEFT: " + triesLeft);
-            console.log("WRONG LETTERS SO FAR: " + wrongGuesses);
+            console.log("WRONG LETTERS SO FAR: " + wrongGuesses.join(" "));
             statusArray = []
-            for (var i = 0; i < word.wordArray.length; i++) {
-              statusArray.push(word.wordArray[i].guessed)
-            }
-            // console.log("Updated array " + statusArray)
+            word.lettersObjectArray.forEach(letterObjectArray => {
+              statusArray.push(letterObjectArray.guessed)
+            })
             gameStatus();
-          } else {
+          } else if (wrongGuesses.indexOf(input.toUpperCase()) < 0) {
             statusArray = []
-            for (var i = 0; i < word.wordArray.length; i++) {
-              statusArray.push(word.wordArray[i].guessed)
-            }
+            word.lettersObjectArray.forEach(letterObjectArray => {
+              statusArray.push(letterObjectArray.guessed)
+            })
             triesLeft--;
-            wrongGuesses.push(input)
+            wrongGuesses.push(input.toUpperCase())
             console.log(" ")
             word.buildWord();
             console.log(" ")
             console.log("WRONG GUESS")
             console.log("TRIES LEFT: " + triesLeft);
-            console.log("WRONG LETTERS SO FAR: " + wrongGuesses);
+            console.log("WRONG LETTERS SO FAR: " + wrongGuesses.join(" "));
             gameStatus();
-        }  
+        }  else {
+          console.log(" ")
+          word.buildWord();
+          console.log(" ")
+          console.log("YOU ALREADY TRIED " + input.toUpperCase())
+          console.log("TRIES LEFT: " + triesLeft);
+          console.log("WRONG LETTERS SO FAR: " + wrongGuesses.join(" "));
+          gameStatus();
+        }
       }) 
     }
-
 
     function playAgain() {
       inquirer
@@ -135,10 +136,11 @@ function play() {
           if (inquirerResponse.confirm) {
             start();
           } else {
-            console.log("\nTHAT'S OKAY.\n");
+            console.log("\nBYE!\n");
           }
         });
       }
+      
  
 
 

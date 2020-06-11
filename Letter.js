@@ -1,4 +1,4 @@
-var Letter = function(letter) {
+const Letter = function(letter) {
     
     this.letter = letter,
     this.guessed = false
@@ -23,6 +23,5 @@ Letter.prototype.compare = function(input) {
         }
     } 
 }
-
 
 module.exports = Letter;

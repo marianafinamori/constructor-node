@@ -1,39 +1,32 @@
-var Letter = require("./Letter.js");
+const Letter = require("./Letter.js");
 
-var Word = function(randomWord) {
-    this.wordArray = [];
-    this.city = [];
+const Word = function(artist) {
+    this.lettersObjectArray = [];
+    this.nameIntoArray = [];
     this.word = "";
 
-    
-    for (var i = 0; i < randomWord.length; i++) {
-        var letter = new Letter(randomWord[i]);
-        this.wordArray.push(letter);
-        this.city.push(letter.letter); 
-    }
+    Array.from(artist).forEach(eachLetter => {
+        let nameLetterObject  = new Letter(eachLetter);
+        this.lettersObjectArray.push(nameLetterObject);
+        this.nameIntoArray.push(nameLetterObject.letter); 
+        // console.log("this.nameLetterObjectArray: " + JSON.stringify(this.nameLetterObjectArray))
+        // console.log("this.nameIntoArray " + this.nameIntoArray)
+    })   
 }
+
 Word.prototype.buildWord = function() {
     this.word = "";
-        for (var i = 0; i < this.city.length; i++) { 
-        this.word+=this.wordArray[i].guessOrNot();
-        }
-    // return this.word;
+        this.lettersObjectArray.forEach(letterObject => {
+            this.word+=letterObject.guessOrNot()
+        })
     console.log(this.word);
 }
 
-//  d. a function that takes a character as an argument and calls the guess function on each letter object 
-//(the 2nd function defined in Letter.js)
-
 Word.prototype.checkWord = function(input) {
-    for (var i = 0; i < this.wordArray.length; i++) {
-        //this.city[i] is just a character
-        //this.wordArray[i] is the whole Letter object
-        // this.word[i].compare(input);
-        this.wordArray[i].compare(input);
-
-    }
+    this.lettersObjectArray.forEach(eachLetter => {
+        eachLetter.compare(input)
+    })
 }
-
 
 module.exports = Word;
 
